@@ -1,0 +1,64 @@
+CODECANYON FEATURES LIST (Copy to Features section)
+====================================================
+
+Core Features:
+- OpenAI GPT-3.5/GPT-4 Integration
+- 8 Pre-built Content Templates
+- Custom Prompt Generation
+- Generation History with Search
+- Favorites System
+- Copy & Download Content
+- Credit-based Usage System
+
+User Features:
+- User Registration & Login
+- Profile Management
+- Password Change
+- Credit Balance Display
+- Responsive Dashboard
+
+Admin Features:
+- Admin Dashboard with Analytics
+- User Management (CRUD)
+- Credit Management
+- Role Management (Admin/User)
+- Template Management (CRUD)
+- Usage Statistics
+
+Content Templates:
+- Blog Post Generator
+- Social Media Post Generator
+- Email Copy Generator
+- Product Description Generator
+- Ad Copy Generator
+- SEO Meta Description Generator
+- YouTube Script Generator
+- Newsletter Generator
+
+Technical Features:
+- React 18 Frontend
+- Tailwind CSS Styling
+- Node.js + Express Backend
+- SQLite Database
+- JWT Authentication
+- Rate Limiting
+- CORS Security
+- Input Validation
+- Password Hashing (bcrypt)
+
+Design Features:
+- Modern Clean UI
+- Gradient Accents
+- Responsive Design
+- Mobile Friendly
+- Dark/Light Ready Structure
+- Smooth Animations
+- Toast Notifications
+
+Documentation:
+- Detailed README
+- Installation Guide
+- API Reference
+- Customization Guide
+- Troubleshooting Guide
+- FAQ Section
