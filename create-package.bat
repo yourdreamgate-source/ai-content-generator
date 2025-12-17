@@ -5,68 +5,84 @@ echo ========================================
 echo.
 
 REM Step 1: Clean up
-echo [1/5] Cleaning up old files...
-if exist "node_modules" rmdir /s /q node_modules
-if exist "client\node_modules" rmdir /s /q client\node_modules
-if exist "client\build" rmdir /s /q client\build
-if exist "database.sqlite" del database.sqlite
-if exist ".env" del .env
+echo [1/6] Cleaning up old files...
+if exist "dist" rmdir /s /q dist
 if exist "ai-content-generator.zip" del ai-content-generator.zip
 echo Done!
 echo.
 
-REM Step 2: Install dependencies
-echo [2/5] Installing dependencies...
-call npm run install-all
+REM Step 2: Create dist folder structure
+echo [2/6] Creating package structure...
+mkdir dist\ai-content-generator
+mkdir dist\ai-content-generator\client
+mkdir dist\ai-content-generator\server
+mkdir dist\ai-content-generator\docs
 echo Done!
 echo.
 
-REM Step 3: Build production
-echo [3/5] Building production client...
-call npm run build
+REM Step 3: Copy files
+echo [3/6] Copying files...
+
+REM Copy client (excluding node_modules)
+xcopy /E /I /Y client\src dist\ai-content-generator\client\src
+xcopy /E /I /Y client\public dist\ai-content-generator\client\public
+copy client\package.json dist\ai-content-generator\client\
+copy client\package-lock.json dist\ai-content-generator\client\
+copy client\tailwind.config.js dist\ai-content-generator\client\
+copy client\postcss.config.js dist\ai-content-generator\client\
+
+REM Copy server
+xcopy /E /I /Y server dist\ai-content-generator\server
+
+REM Copy docs
+xcopy /E /I /Y docs dist\ai-content-generator\docs
+
+REM Copy root files
+copy .env.example dist\ai-content-generator\
+copy .gitignore dist\ai-content-generator\
+copy install.bat dist\ai-content-generator\
+copy install.sh dist\ai-content-generator\
+copy LICENSE dist\ai-content-generator\
+copy package.json dist\ai-content-generator\
+copy package-lock.json dist\ai-content-generator\
+copy README.md dist\ai-content-generator\
+
 echo Done!
 echo.
 
-REM Step 4: Clean node_modules again for packaging
-echo [4/5] Removing node_modules for packaging...
-rmdir /s /q node_modules
-rmdir /s /q client\node_modules
+REM Step 4: Create ZIP using PowerShell
+echo [4/6] Creating ZIP package...
+powershell -Command "Compress-Archive -Path 'dist\ai-content-generator' -DestinationPath 'ai-content-generator.zip' -Force"
 echo Done!
 echo.
 
-REM Step 5: Create ZIP
-echo [5/5] Creating ZIP package...
+REM Step 5: Cleanup dist folder
+echo [5/6] Cleaning up temp files...
+rmdir /s /q dist
+echo Done!
 echo.
-echo NOTE: Please manually create ZIP file with these contents:
-echo.
-echo ai-content-generator.zip
-echo └── ai-content-generator/
-echo     ├── client/
-echo     ├── server/
-echo     ├── docs/
-echo     ├── .env.example
-echo     ├── .gitignore
-echo     ├── install.bat
-echo     ├── install.sh
-echo     ├── LICENSE
-echo     ├── package.json
-echo     └── README.md
-echo.
-echo DO NOT include:
-echo - node_modules/
-echo - .env (with real keys)
-echo - database.sqlite
-echo - .git/
-echo - codecanyon/ folder
-echo.
-echo ========================================
-echo  Package preparation complete!
-echo ========================================
+
+REM Step 6: Show result
+echo [6/6] Verifying package...
+if exist "ai-content-generator.zip" (
+    echo.
+    echo ========================================
+    echo  ✅ SUCCESS! Package created:
+    echo  ai-content-generator.zip
+    echo ========================================
+    echo.
+    powershell -Command "(Get-Item 'ai-content-generator.zip').Length / 1MB" 
+    echo MB
+) else (
+    echo.
+    echo ❌ ERROR: ZIP file was not created!
+    echo.
+)
+
 echo.
 echo NEXT STEPS:
-echo 1. Create ZIP manually (exclude codecanyon folder)
-echo 2. Take screenshots (see codecanyon/screenshots-guide.md)
-echo 3. Deploy demo site (see codecanyon/demo-setup.md)
-echo 4. Upload to CodeCanyon
+echo 1. Take screenshots (see codecanyon/screenshots-guide.md)
+echo 2. Deploy demo site to Railway
+echo 3. Upload to CodeCanyon
 echo.
 pause
